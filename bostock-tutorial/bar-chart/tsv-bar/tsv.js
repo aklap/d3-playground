@@ -16,7 +16,7 @@ var chart = d3.select('.chart')
               // many elements are in our dataset
 
 // Create bars in chart svg, needs a g and rect for ea bar
-d3.tsv('http://localhost:8080/bostock-tutorial/bar-chart/tsv-bar/data.tsv', type, function (err, data) {
+d3.tsv('data.tsv', type, function (err, data) {
 
   if (err) { return err; } // error handling
 
