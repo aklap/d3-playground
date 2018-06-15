@@ -19,53 +19,54 @@ var xAxis = d3.axisBottom(x);
 // for the given scale, with empty tick arguments, a tick size of 6 and padding of 3. In this orientation, ticks are drawn to the left of the vertical domain path.
 
 var yAxis = d3.axisLeft(y)
-              .ticks(10, "%"); // this changes the numbers from floats
-              // to percentages
+              .ticks(10, '%'); // this changes the numbers from floats
+              // to percentages with % delim
 
-var chart = d3.select("svg") // select the svg element in HTML
-            .attr("width", width + margin.left + margin.right) // set
+var chart = d3.select('svg') // select the svg element in HTML
+            .attr('width', width + margin.left + margin.right) // set
             // width
-            .attr("height", height + margin.top + margin.bottom) // set
+            .attr('height', height + margin.top + margin.bottom) // set
             // height
-            .append("g") // create a g element within the svg element
-            .attr("transform", "translate(" + margin.left + "," +
-                  margin.top + ")"); // position the g element
+            .append('g') // create a g element within the svg element
+            .attr('transform', 'translate(' + margin.left + ',' +
+                  margin.top + ')'); // position the g element
 
-d3.tsv("data.tsv", type, function(error, data) {
-  if (error) throw error; // error handling
+d3.tsv('data.tsv', type, function(error, data) {
+  // error handling
+  if (error) throw error;
 
   x.domain(data.map(function(d) { return d.letter; })); // inputs
   y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
  // outputs
 
  // Create an x axis
-  chart.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+  chart.append('g')
+       .attr('class', 'x axis')
+       .attr('transform', 'translate(0,' + height + ')')
+       .call(xAxis);
 
   // Create a y axis
-  chart.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-      .append("text") // From here down: Adding text
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "start")
-      .text("Frequency"); // this never displays! tutorial bug
+  chart.append('g')
+       .attr('class', 'y axis')
+       .call(yAxis)
+       .append('text') // From here down: Adding label to axis
+       .attr('transform', 'rotate(-90)')
+       .attr('y', 6)
+       .attr('dy', '.71em')
+       .style('text-anchor', 'start')
+       .text('Frequency'); // Note: this never displays! tutorial bug
 
   // Create bars
-  chart.selectAll(".bar")
-      .data(data)
-      .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.letter); })
-      .attr("width",  x.bandwidth()) // replaces replace
-      // ordinal.rangeBand() and returns the width of each band which
-      // is always the same in this chart
-      .attr("y", function(d) { return y(d.frequency); })
-      .attr("height", function(d) { return height - y(d.frequency); });
+  chart.selectAll('.bar')
+       .data(data)
+       .enter().append('rect')
+       .attr('class', 'bar')
+       .attr('x', function(d) { return x(d.letter); })
+       .attr('width',  x.bandwidth()) // replaces ordinal.rangeBand()
+       // and returns the width of each band which is always the same
+       // in this chart
+       .attr('y', function(d) { return y(d.frequency); })
+       .attr('height', function(d) { return height - y(d.frequency); });
 });
 
 // Helper function, coerce to int
