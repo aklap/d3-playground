@@ -10,13 +10,11 @@ var x = d3.scaleBand() // this replaces deprecated .rangeBands()
 var y = d3.scaleLinear()
           .range([height, 0]);
 
-// d3.axisBottom(scale): Constructs a new bottom-oriented axis
-// generator for the given scale, with empty tick arguments, a tick size of 6 and padding of 3. In this orientation, ticks are drawn below the horizontal domain path.
+// d3.axisBottom(scale): Constructs a new bottom-oriented axis generator for the given scale, with empty tick arguments, a tick size of 6 and padding of 3. In this orientation, ticks are drawn below the horizontal domain path.
 
 var xAxis = d3.axisBottom(x);
 
-// d3.axisLeft(scale): Constructs a new left-oriented axis generator
-// for the given scale, with empty tick arguments, a tick size of 6 and padding of 3. In this orientation, ticks are drawn to the left of the vertical domain path.
+// d3.axisLeft(scale): Constructs a new left-oriented axis generator for the given scale, with empty tick arguments, a tick size of 6 and padding of 3. In this orientation, ticks are drawn to the left of the vertical domain path.
 
 var yAxis = d3.axisLeft(y)
               .ticks(10, '%'); // this changes the numbers from floats
@@ -36,8 +34,7 @@ d3.tsv('data.tsv', type, function(error, data) {
   if (error) throw error;
 
   x.domain(data.map(function(d) { return d.letter; })); // inputs
-  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
- // outputs
+  y.domain([0, d3.max(data, function(d) { return d.frequency; })]); //outputs
 
  // Create an x axis
   chart.append('g')
