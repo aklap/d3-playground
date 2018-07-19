@@ -34,7 +34,8 @@ var rScale = d3.scaleSqrt()
 
 // Create axes and pass in scale as argument
 var xAxis = d3.axisBottom(xScale)
-              .ticks(5); // suggest minimum of ticks
+              // .ticks(5); // suggest minimum of ticks
+              .tickValues([0, 100, 250, 600]); // set ticks manually, D3 won't override
 
 // Create svg
 var svg = d3.select('body')
