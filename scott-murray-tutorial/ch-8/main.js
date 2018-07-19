@@ -68,24 +68,6 @@ svg.selectAll('circle') // each data point will be a circle
       return rScale(d[1]);
    });// this fixes the relative sizing of circles
 
-// Add labels
-  svg.selectAll('text')
-     .data(dataset)
-     .enter()
-     .append('text')
-     .text(function(d) {
-        return d[0] + ',' + d[1];
-     })
-     .attr('x', function(d) {
-        return xScale(d[0]);
-     })
-     .attr('y', function(d) {
-        return yScale(d[1]);
-     })
-     .attr('font-family', 'sans-serif')
-     .attr('font-size', '11px')
-     .attr('fill', 'red');
-
 // Add x axis
   svg.append('g') // add group element, an invisible element
      .attr('class', 'axis')
