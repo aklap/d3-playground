@@ -1,7 +1,7 @@
 // Constants
 var w = 500,
     h = 300,
-    padding = 20;
+    padding = 30;
 
 // Our dataset
 var dataset = [
@@ -34,8 +34,11 @@ var rScale = d3.scaleSqrt()
 
 // Create axes and pass in scale as argument
 var xAxis = d3.axisBottom(xScale)
-              // .ticks(5); // suggest minimum of ticks
-              .tickValues([0, 100, 250, 600]); // set ticks manually, D3 won't override
+              .ticks(5); // suggest minimum of ticks
+              // .tickValues([0, 100, 250, 600]); // set ticks manually, D3 won't override
+
+var yAxis = d3.axisLeft(yScale)
+              .ticks(5);
 
 // Create svg
 var svg = d3.select('body')
@@ -76,13 +79,15 @@ svg.selectAll('circle') // each data point will be a circle
      .attr('font-size', '11px')
      .attr('fill', 'red');
 
-// Call the xAxis _function_ on our svg, leaving it last so it appears
-// on top of the rest of the elements
-
-// Note: This applies a 'layer' to the SVG; try moving it up and se it
-// cover the red numbers
+// Add x axis
   svg.append('g') // add group element, an invisible element
      .attr('class', 'axis')
-     .attr('transform', 'translate(0,' + (h-padding) + ')') // move
+     .attr('transform', 'translate(0,' + (h - padding) + ')') // move
      // down by certain number of pixels
      .call(xAxis); // apply a transformation to our svg
+
+// Add y axis
+  svg.append('g')
+     .attr('class', 'axis')
+     .attr('transform', 'translate(' + padding + ',0)')
+     .call(yAxis);
