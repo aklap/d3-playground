@@ -3,11 +3,18 @@ var w = 500,
     h = 300,
     padding = 30;
 
-// Our dataset
-var dataset = [
-                [5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
-                [410, 12], [475, 44], [25, 67], [85, 21], [220, 88]
-              ];
+// Make dynamic dataset
+
+var dataset = [];
+var numDataPoints = 50;
+var xRange = Math.random() * 1000;
+var yRange = Math.random() * 1000;
+for (var i = 0; i < numDataPoints; i++) {
+  var newNumber1 = Math.floor(Math.random() * xRange);
+  var newNumber2 = Math.floor(Math.random() * yRange);
+
+  dataset.push([newNumber1, newNumber2]);
+}
 
 // Now add a new array and see how the circles shift!
 dataset.push([650, 150]);
