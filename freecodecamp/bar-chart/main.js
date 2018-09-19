@@ -1,20 +1,19 @@
-var url =
-'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json';
-var dataset, xScale, yScale;
-
-var w = 900,
+var dataset,
     h = 460,
-    padding = 20;
+    padding = 20,
+    url ='https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json',
+    w = 900,
+    xScale,
+    yScale;
 
 // Append an SVG for our bar chart
 const svg = d3.select('body')
-  .append('svg')
-  .attr('width', 900)
-  .attr('height', 460);
+              .append('svg')
+              .attr('width', 900)
+              .attr('height', 460);
 
 // Define x axis - get min max, set scale
 var parseTime = d3.timeParse("%Y-%m-%d");
-
 
 // Fetch data for dataset as json with key-value of year and GDP in
 // billions of USD $
@@ -31,8 +30,8 @@ d3.json(url, function(err, data) {
   xScale = d3.scaleTime().domain([
                                   d3.min(dataset, function(d) {
                                    return parseTime(d[0]);
-                                  }), 
-                                  d3.max(dataset, function(d) { 
+                                  }),
+                                  d3.max(dataset, function(d) {
                                    return parseTime(d[0]);
                                   })
                                  ])
@@ -40,12 +39,12 @@ d3.json(url, function(err, data) {
 
   yScale = d3.scaleTime().domain([
                               d3.min(dataset, function(d) {
-                               return parseInt(d[1])
+                               return parseInt(d[1]);
                               }),
                               d3.max(dataset, function(d) {
-                                return parseInt(d[1])
+                                return parseInt(d[1]);
                               })
-                              ]).range([padding, h-padding*2]);
+                              ]).range([padding, h - padding * 2]);
   // Build basic bar chart, scaled
   svg.selectAll('rect')
     .data(dataset)
@@ -79,4 +78,11 @@ d3.json(url, function(err, data) {
        .attr('class', 'axis')
        .attr('transform', 'translate('+  padding + ',0)')
        .call(yAxis);
+
+    // Add a title
+    d3.select('body')
+        .append('h1')
+        .attr('id', 'title')
+        .text(res.name);
+
 });
