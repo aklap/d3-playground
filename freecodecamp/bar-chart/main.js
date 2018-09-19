@@ -35,7 +35,7 @@ d3.json(url, function(err, data) {
                                    return parseTime(d[0]);
                                   })
                                  ])
-                                 .range([padding, w + padding]);
+                                 .range([padding, w - padding]);
 
   yScale = d3.scaleLinear().domain([
                               d3.min(dataset, function(d) {
@@ -44,21 +44,21 @@ d3.json(url, function(err, data) {
                               d3.max(dataset, function(d) {
                                 return parseInt(d[1]);
                               })
-                              ]).range([padding, h - padding * 2]);
+                              ]).range([h - padding * 2, padding]);
   // Build basic bar chart, scaled
   svg.selectAll('rect')
     .data(dataset)
     .enter()
     .append('rect')
     .attr('x', function(d, i) {
-      return i * ((w - padding) / dataset.length) + padding;
+      return i * ((w - padding) / dataset.length) + padding * 2;
     })
     .attr('y', function(d) {
-      return h - (yScale(d[1]) + padding); // change to + padding
+      return yScale(d[1]);
     })
     .attr('width', w / dataset.length - 1)
     .attr('height', function(d) {
-      return yScale(d[1]);
+      return h - (yScale(d[1]) + padding);
     })
     .attr('fill', function(d) {
       return "rgb(0, 0, " + Math.round(d[1] * 10) + ")";
@@ -71,13 +71,14 @@ d3.json(url, function(err, data) {
 
     svg.append('g')
        .attr('class', 'axis')
-       .attr('transform', 'translate(-' + padding * 2  + ', ' + (h - padding) + ')')
+       .attr('transform', 'translate(' + padding + ', ' + (h - padding) + ')')
        .attr('id', 'x-axis')
        .call(xAxis);
 
     svg.append('g')
        .attr('class', 'axis')
-       .attr('transform', 'translate('+  padding + ',0)')
+       .attr('transform', 'translate('+  padding * 2 + ', '
+             + padding +')')
        .attr('id', 'y-axis')
        .call(yAxis);
 
