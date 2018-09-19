@@ -36,27 +36,26 @@ d3.json(url, function(err, data) {
                                    return parseTime(d[0]);
                                   })
                                  ])
-                                 .range([padding, w - padding]);
+                                 .range([padding, w + padding]);
 
   yScale = d3.scaleTime().domain([
                               d3.min(dataset, function(d) {
-                                
                                return parseInt(d[1])
                               }),
                               d3.max(dataset, function(d) {
                                 return parseInt(d[1])
                               })
-                              ]).range([padding, h - padding]);
+                              ]).range([padding, h-padding*2]);
   // Build basic bar chart, scaled
   svg.selectAll('rect')
     .data(dataset)
     .enter()
     .append('rect')
     .attr('x', function(d, i) {
-      return i * (w / dataset.length);
+      return i * ((w - padding) / dataset.length) + padding;
     })
     .attr('y', function(d) {
-      return h - (yScale(d[1]) - padding);
+      return h - (yScale(d[1]) + padding); // change to + padding
     })
     .attr('width', w / dataset.length - 1)
     .attr('height', function(d) {
