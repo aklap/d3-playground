@@ -26,7 +26,7 @@ d3.json(url, function(err, data) {
   return JSON.parse(res); // Turn JSON from string into JS object
 }).then(function(res) {
   dataset = res.data;
-  
+
  // Set scales
   xScale = d3.scaleTime().domain([
                                   d3.min(dataset, function(d) {
@@ -64,5 +64,20 @@ d3.json(url, function(err, data) {
     })
     .attr('fill', function(d) {
       return "rgb(0, 0, " + Math.round(d[1] * 10) + ")";
-    });             
+    });
+
+    // Create axes
+    var xAxis = d3.axisBottom(xScale);
+
+    var yAxis = d3.axisLeft(yScale);
+
+    svg.append('g')
+       .attr('class', 'axis')
+       .attr('transform', 'translate(-' + padding * 2  + ', ' + (h - padding) + ')')
+       .call(xAxis);
+
+    svg.append('g')
+       .attr('class', 'axis')
+       .attr('transform', 'translate('+  padding + ',0)')
+       .call(yAxis);
 });

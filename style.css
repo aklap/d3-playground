@@ -1,0 +1,5 @@
+.axis path, .axis line {
+    stroke: black;
+    /* clean up visual artificats from antialiasing */
+    shape-rendering: crispEdges;
+}
