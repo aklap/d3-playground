@@ -86,6 +86,6 @@ d3.json(url, function(err, data) {
     d3.select('body')
         .append('h1')
         .attr('id', 'title')
-        .text(res.name);
+        .text(res.name.match(/^([^,])+/g));
 
 });
