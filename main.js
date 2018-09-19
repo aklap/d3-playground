@@ -1,23 +1,68 @@
 var url =
 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json';
-var dataset;
+var dataset, xScale, yScale;
 
 var w = 900,
-    h = 460;
+    h = 460,
+    padding = 20;
 
 // Append an SVG for our bar chart
-d3.select('body')
+const svg = d3.select('body')
   .append('svg')
   .attr('width', 900)
   .attr('height', 460);
 
+// Define x axis - get min max, set scale
+var parseTime = d3.timeParse("%Y-%m-%d");
+
+
 // Fetch data for dataset as json with key-value of year and GDP in
 // billions of USD $
 d3.json(url, function(err, data) {
-  if(err) {
+  if(err) { // error handling
     console.log(err);
   }
 
-  dataset = JSON.parse(data);
-});
+  return JSON.parse(res); // Turn JSON from string into JS object
+}).then(function(res) {
+  dataset = res.data;
+  
+ // Set scales
+  xScale = d3.scaleTime().domain([
+                                  d3.min(dataset, function(d) {
+                                   return parseTime(d[0]);
+                                  }), 
+                                  d3.max(dataset, function(d) { 
+                                   return parseTime(d[0]);
+                                  })
+                                 ])
+                                 .range([padding, w - padding]);
 
+  yScale = d3.scaleTime().domain([
+                              d3.min(dataset, function(d) {
+                                
+                               return parseInt(d[1])
+                              }),
+                              d3.max(dataset, function(d) {
+                                return parseInt(d[1])
+                              })
+                              ]).range([padding, h - padding]);
+  // Build basic bar chart, scaled
+  svg.selectAll('rect')
+    .data(dataset)
+    .enter()
+    .append('rect')
+    .attr('x', function(d, i) {
+      return i * (w / dataset.length);
+    })
+    .attr('y', function(d) {
+      return h - (yScale(d[1]) - padding);
+    })
+    .attr('width', w / dataset.length - 1)
+    .attr('height', function(d) {
+      return yScale(d[1]);
+    })
+    .attr('fill', function(d) {
+      return "rgb(0, 0, " + Math.round(d[1] * 10) + ")";
+    });             
+});
