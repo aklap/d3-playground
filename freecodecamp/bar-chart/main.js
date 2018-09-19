@@ -78,6 +78,7 @@ d3.json(url, function(err, data) {
     svg.append('g')
        .attr('class', 'axis')
        .attr('transform', 'translate('+  padding + ',0)')
+       .attr('id', 'y-axis')
        .call(yAxis);
 
     // Add a title
