@@ -37,7 +37,7 @@ d3.json(url, function(err, data) {
                                  ])
                                  .range([padding, w + padding]);
 
-  yScale = d3.scaleTime().domain([
+  yScale = d3.scaleLinear().domain([
                               d3.min(dataset, function(d) {
                                return parseInt(d[1]);
                               }),
