@@ -72,6 +72,7 @@ d3.json(url, function(err, data) {
     svg.append('g')
        .attr('class', 'axis')
        .attr('transform', 'translate(-' + padding * 2  + ', ' + (h - padding) + ')')
+       .attr('id', 'x-axis')
        .call(xAxis);
 
     svg.append('g')
