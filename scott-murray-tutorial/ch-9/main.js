@@ -79,6 +79,10 @@ d3.select('p')
       // Update bars
       svg.selectAll('rect') // updates the values of the bars
          .data(dataset)
+         .transition() // animates a transition to new chart, default
+         // is 250ms. NOTE: Remember transitions can only be done on
+         // exisiting values!
+         .duration(1000) // NOTE: must always be after transition
          .attr('y', function(d) { // updates the height of the bars
             return h - yScale(d);
          })
@@ -92,6 +96,9 @@ d3.select('p')
       // Update labels
       svg.selectAll('text')
          .data(dataset)
+         .transition() // So labels transition smoothly in sync with
+         // bars
+         .duration(1000)
          .text(function(d) {
             return d;
          })
