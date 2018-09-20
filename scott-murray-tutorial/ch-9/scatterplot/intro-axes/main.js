@@ -81,21 +81,31 @@ d3.select("p")
       dataset.push([newNumber1, newNumber2]);         //Add new number to array
     }
 
-    //Update scale domains
+    // Update scale domains
     xScale.domain([0, d3.max(dataset, function(d) { return d[0]; })]);
     yScale.domain([0, d3.max(dataset, function(d) { return d[1]; })]);
 
-    //Update all circles
-    svg.selectAll("circle")
-       .data(dataset)
-       .transition()
-         .duration(1000)
-       .attr("cx", function(d) {
-          return xScale(d[0]);
-       })
-       .attr("cy", function(d) {
-          return yScale(d[1]);
-       });
+    // Update all circles
+          svg.selectAll("circle")
+             .data(dataset)
+             .transition()
+             .duration(1000)
+             .on("start", function() {
+               d3.select(this)
+                 .attr("fill", "magenta")
+                 .attr("r", 3);
+             })
+             .attr("cx", function(d) {
+                return xScale(d[0]);
+             })
+             .attr("cy", function(d) {
+                return yScale(d[1]);
+             })
+             .on("end", function() {
+               d3.select(this)
+                 .attr("fill", "black")
+                 .attr("r", 2);
+             });
 
     // Update the x axis
     svg.select('.x.axis')
