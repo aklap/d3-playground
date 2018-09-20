@@ -68,3 +68,39 @@ svg.selectAll('text')
    .attr('font-size', '11px')
    .attr('fill', 'white')
    .attr('text-anchor', 'middle'); // anchor text in middle of bar
+
+// Interaction via Event Listeners
+
+d3.select('p')
+   .on('click', function() {
+
+      dataset = [ 11, 12, 15, 20, 18, 17, 16, 18, 23, 25, 5, 10, 13,
+                  19, 21, 25, 22, 18, 15, 13];
+      // Update bars
+      svg.selectAll('rect') // updates the values of the bars
+         .data(dataset)
+         .attr('y', function(d) { // updates the height of the bars
+            return h - yScale(d);
+         })
+         .attr('height', function(d) {
+            return yScale(d);
+         })
+         .attr('fill', function(d) {
+            return 'rgb(0, 0, ' + Math.round(d * 10) + ')';
+         });
+
+      // Update labels
+      svg.selectAll('text')
+         .data(dataset)
+         .text(function(d) {
+            return d;
+         })
+         .attr('x', function(d, i) {
+            return xScale(i) + xScale.bandwidth() / 2;
+         })
+         .attr('y', function(d) {
+            return h - yScale(d) + 14; // what is this magic num??
+         });
+   });
+
+
