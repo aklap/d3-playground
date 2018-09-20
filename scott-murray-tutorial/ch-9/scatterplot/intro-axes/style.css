@@ -1,0 +1,12 @@
+.axis path, .axis line {
+    stroke: teal;
+    /* clean up visual artificats from antialiasing */
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: Optima, Futura, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    fill: teal;
+}
