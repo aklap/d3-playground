@@ -57,14 +57,14 @@ svg.selectAll('circle') // each data point will be a circle
 
 // Add x axis
 svg.append('g') // add group element, an invisible element
-   .attr('class', 'axis')
+   .attr('class', 'x axis')
    .attr('transform', 'translate(0,' + (h - padding) + ')') // move
    // down by certain number of pixels
    .call(xAxis); // apply a transformation to our svg
 
 // Add y axis
 svg.append('g')
-   .attr('class', 'axis')
+   .attr('class', 'y axis')
    .attr('transform', 'translate(' + padding + ',0)')
    .call(yAxis);
 
@@ -96,4 +96,16 @@ d3.select("p")
        .attr("cy", function(d) {
           return yScale(d[1]);
        });
+
+    // Update the x axis
+    svg.select('.x.axis')
+       .transition()
+       .duration(1000)
+       .call(xAxis); // this will re-generate the x axis and scale it
+
+    // Update the y axis
+    svg.select('.y.axis')
+       .transition()
+       .duration(1000)
+       .call(yAxis); // this will re-generate the x axis and scale it
   });
