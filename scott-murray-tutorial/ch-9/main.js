@@ -73,13 +73,19 @@ svg.selectAll('text')
 
 d3.select('p')
    .on('click', function() {
-      var numValues = dataset.length;
+      var numValues = dataset.length,
+          maxValue = 100;
+
       dataset = [];
+
       // Randomize the data
       for(var i = 0; i < numValues; i++) {
-         var newNumber = Math.floor(Math.random() * 25);
+         var newNumber = Math.floor(Math.random() * maxValue);
          dataset.push(newNumber);
       }
+
+      yScale.domain([0, d3.max(dataset)]); // Scale bars with new data
+
       // Update bars
       svg.selectAll('rect') // updates the values of the bars
          .data(dataset)
