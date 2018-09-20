@@ -83,7 +83,8 @@ d3.select('p')
          // is 250ms. NOTE: Remember transitions can only be done on
          // exisiting values!
          .delay(function(d, i) {
-            return i * 200; // NOTE: this will mean the total animation
+            return i / dataset.length * 1000; // NOTE: this will mean
+            // the total animation
             // time will be longer than 500!
          })// can take a numeric val as ms or anonymous function
          .duration(500) // NOTE: must always be after transition
