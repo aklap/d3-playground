@@ -116,7 +116,18 @@ d3.select('p')
             return xScale(i) + xScale.bandwidth() / 2;
          })
          .attr('y', function(d) {
-            return h - yScale(d) + 14; // what is this magic num??
+            if(d <= 1) {
+               return h - yScale(d) - 2;
+            } else {
+               return h - yScale(d) + 14; // what is this magic num??
+            }
+         })
+         .attr('fill', function(d, i) {
+            if(d <= 1) {
+               return 'rgb(0, 0, 0)';
+            } else {
+               return 'white';
+            }
          });
    });
 
