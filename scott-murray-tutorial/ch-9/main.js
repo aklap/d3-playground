@@ -82,7 +82,12 @@ d3.select('p')
          .transition() // animates a transition to new chart, default
          // is 250ms. NOTE: Remember transitions can only be done on
          // exisiting values!
-         .duration(1000) // NOTE: must always be after transition
+         .delay(function(d, i) {
+            return i * 200; // NOTE: this will mean the total animation
+            // time will be longer than 500!
+         })// can take a numeric val as ms or anonymous function
+         .duration(500) // NOTE: must always be after transition
+         .ease(d3.easeCubicInOut)
          .attr('y', function(d) { // updates the height of the bars
             return h - yScale(d);
          })
@@ -98,7 +103,7 @@ d3.select('p')
          .data(dataset)
          .transition() // So labels transition smoothly in sync with
          // bars
-         .duration(1000)
+         .duration(2000)
          .text(function(d) {
             return d;
          })
