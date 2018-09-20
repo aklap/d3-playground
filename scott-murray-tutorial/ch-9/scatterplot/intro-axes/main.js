@@ -43,7 +43,10 @@ var svg = d3.select('body')
             .attr('height', h);
 
 // Scatterplot with hierarchical size
-svg.selectAll('circle') // each data point will be a circle
+svg.append('g')
+   .attr('id', 'circle')
+   .attr('clip-path', 'url(#chart-area)')
+   .selectAll('circle') // each data point will be a circle
    .data(dataset)
    .enter()
    .append('circle')
@@ -67,6 +70,15 @@ svg.append('g')
    .attr('class', 'y axis')
    .attr('transform', 'translate(' + padding + ',0)')
    .call(yAxis);
+
+// Add clip path
+svg.append('clipPath')
+   .attr('id', 'chart-area')
+   .append('rect')
+   .attr('x', padding)
+   .attr('y', padding)
+   .attr('width', w - padding * 2)
+   .attr('height', h - padding * 2)
 
 //On click, update with new data
 d3.select("p")
