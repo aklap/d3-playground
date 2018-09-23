@@ -136,8 +136,8 @@ d3.select('p')
       bars.exit()
           .transition()
           .duration(500)
-          .style('opacity', '0') // Make bar disappearance a little
-          // nicer
+          .attr('x', -xScale.bandwidth()) // this makes the bars shift
+          // to the left instead of the right
           .remove();
 
       // Update labels
