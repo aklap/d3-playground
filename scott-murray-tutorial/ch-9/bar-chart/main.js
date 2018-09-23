@@ -60,9 +60,14 @@ var yScale = d3.scaleLinear()
                // 'value', i.e., an 'accessor function'
                .range([0, h]);
 
+// Define the key function
+var key = function(d) {
+   return d.key;
+}
+
 // Create bars
  svg.selectAll('rect')
-   .data(dataset)
+   .data(dataset, key)
    .enter()
    .append('rect')
    .attr('x', function(d, i) {
@@ -81,7 +86,7 @@ var yScale = d3.scaleLinear()
 
 // Create labels
 svg.selectAll('text')
-   .data(dataset)
+   .data(dataset, key)
    .enter()
    .append('text')
    .text(function(d) {
@@ -114,7 +119,7 @@ d3.select('p')
       // change color of bars.
 
       var bars = svg.selectAll('rect')
-                     .data(dataset)
+                     .data(dataset, key)
                      .attr('x', function(d, i) {
                         return xScale(i); //
                      })
@@ -136,7 +141,7 @@ d3.select('p')
           .remove();
 
       // Update labels
-      var labels = svg.selectAll('text').data(dataset);
+      var labels = svg.selectAll('text').data(dataset, key);
 
       labels.enter()
             .append('text')
