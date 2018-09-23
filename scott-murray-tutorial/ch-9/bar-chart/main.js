@@ -1,6 +1,9 @@
-// Change from array of values to array of objects with key and value
-// properties.
+// To use a key function and keep track of the values binded to certain
+// DOM elements rather than reassign new values to DOM elements on bar
+// removal, we need to use objects that have a 'key' property with
+// value.
 
+// NOTE: 'key' property here is just the index pos. of the value
 var dataset = [
                { key: 0, value: 5 },
                { key: 1, value: 10 },
@@ -51,7 +54,10 @@ var xScale = d3.scaleBand() // creates an ordinal scale
                // arg is a %
 
 var yScale = d3.scaleLinear()
-               .domain([0, d3.max(dataset)])
+               .domain([0, d3.max(dataset, function(d) {
+                  return d.value;
+               })]) // max accepts a callback to access the prop
+               // 'value', i.e., an 'accessor function'
                .range([0, h]);
 
 // Create bars
@@ -63,14 +69,14 @@ var yScale = d3.scaleLinear()
       return xScale(i); //
    }) // prevents bars from overlapping -- spaces evenly
    .attr('y', function(d) {
-      return h - yScale(d); // turns bar right side up
+      return h - yScale(d.value); // turns bar right side up
    })
    .attr('width', xScale.bandwidth())
    .attr('height', function(d) {
-      return yScale(d);
+      return yScale(d.value);
    })
    .attr('fill', function(d) {
-      return "rgb(0, 0, " + Math.round(d * 10) + ")";
+      return "rgb(0, 0, " + Math.round(d.value * 10) + ")";
    }); // fill with a color
 
 // Create labels
@@ -79,13 +85,13 @@ svg.selectAll('text')
    .enter()
    .append('text')
    .text(function(d) {
-      return d;
+      return d.value;
    })
    .attr('x', function(d, i) {
       return xScale(i) + xScale.bandwidth() / 2;
    }) // center in the middle of the bar
    .attr('y', function(d) {
-      return h - yScale(d) + 14;
+      return h - yScale(d.value) + 14;
    })
    .attr('font-family', 'sans-serif')
    .attr('font-size', '11px')
@@ -100,7 +106,9 @@ d3.select('p')
 
       // Update scales with new dataset
       xScale.domain(d3.range(dataset.length));
-      yScale.domain([0, d3.max(dataset)]);
+      yScale.domain([0, d3.max(dataset, function(d) {
+         return d.value;
+      })]);
 
       // Update bars: Necessary to redraw bars to scale, fill svg, and
       // change color of bars.
@@ -111,14 +119,14 @@ d3.select('p')
                         return xScale(i); //
                      })
                      .attr('y', function(d) {
-                        return h - yScale(d);
+                        return h - yScale(d.value);
                      })
                      .attr('width', xScale.bandwidth())
                      .attr('height', function(d) {
-                        return yScale(d);
+                        return yScale(d.value);
                      })
                      .attr('fill', function(d) { return "rgb(0, 0, " +
-                           Math.round(d * 10) + ")"; });
+                           Math.round(d.value * 10) + ")"; });
 
       bars.exit()
           .transition()
@@ -133,19 +141,19 @@ d3.select('p')
       labels.enter()
             .append('text')
             .text(function(d) {
-               return d;
+               return d.value;
             })
             .merge(labels)
             .transition()
             .duration(2000)
             .text(function(d) {
-               return d;
+               return d.value;
             })
             .attr('x', function(d, i) {
                return xScale(i) + xScale.bandwidth() / 2;
             })
             .attr('y', function(d) {
-               return h - yScale(d) + 14;
+               return h - yScale(d.value) + 14;
             })
             .attr('font-family', 'sans-serif')
             .attr('font-size', '11px')
