@@ -73,42 +73,21 @@ svg.selectAll('text')
 
 d3.select('p')
    .on('click', function() {
-      var maxValue = 25;
-      var newNumber = Math.floor(Math.random() * maxValue);
-      dataset.push(newNumber);
+      dataset.shift();
 
+      // Update scales with new dataset
       xScale.domain(d3.range(dataset.length));
+      yScale.domain([0, d3.max(dataset)]);
 
       // Update bars
       var bars = svg.selectAll('rect')
                      .data(dataset);
 
-      bars.enter()
-          .append('rect')
-          .attr('x', w)
-          .attr('y', function(d) {
-            return h - yScale(d);
-          })
-          .attr('width', xScale.bandwidth())
-          .attr('height', function(d) {
-            return yScale(d);
-          })
-          .attr('fill', function(d) {
-            return 'rgb(0, 0,' + Math.round(d * 10) + ')';
-          })
-          .merge(bars)
+      bars.exit()
           .transition()
           .duration(500)
-          .attr('x', function(d, i) {
-            return xScale(i);
-          })
-          .attr('y', function(d) {
-            return h - yScale(d);
-          })
-          .attr('width', xScale.bandwidth())
-          .attr('height', function(d) {
-            return yScale(d);
-          });
+          .attr('x', w)
+          .remove();
 
       // Update labels
       var labels = svg.selectAll('text').data(dataset);
