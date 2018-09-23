@@ -86,7 +86,8 @@ d3.select('p')
       bars.exit()
           .transition()
           .duration(500)
-          .attr('x', w)
+          .style('opacity', '0') // Make bar disappearance a little
+          // nicer
           .remove();
 
       // Update labels
