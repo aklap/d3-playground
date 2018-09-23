@@ -79,9 +79,23 @@ d3.select('p')
       xScale.domain(d3.range(dataset.length));
       yScale.domain([0, d3.max(dataset)]);
 
-      // Update bars
+      // Update bars: Necessary to redraw bars to scale, fill svg, and
+      // change color of bars.
+
       var bars = svg.selectAll('rect')
-                     .data(dataset);
+                     .data(dataset)
+                     .attr('x', function(d, i) {
+                        return xScale(i); //
+                     })
+                     .attr('y', function(d) {
+                        return h - yScale(d);
+                     })
+                     .attr('width', xScale.bandwidth())
+                     .attr('height', function(d) {
+                        return yScale(d);
+                     })
+                     .attr('fill', function(d) { return "rgb(0, 0, " +
+                           Math.round(d * 10) + ")"; });
 
       bars.exit()
           .transition()
