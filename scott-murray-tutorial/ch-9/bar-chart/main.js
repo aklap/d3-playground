@@ -128,6 +128,13 @@ d3.select('p')
             .attr('font-size', '11px')
             .attr('fill', 'white')
             .attr('text-anchor', 'middle');
+
+      // Fixes labels stacking on removal of bar.
+      labels.exit()
+            .transition()
+            .duration(500)
+            .style('opacity', '0')
+            .remove()
    });
 
 
