@@ -105,9 +105,29 @@ svg.selectAll('text')
 
 // Interaction via Event Listeners
 
-d3.select('p')
+d3.selectAll('p') // selectAll because we know have multiple p elements
    .on('click', function() {
-      dataset.shift();
+
+      // Find id of element clicked; this will determine control flow
+      var paragraphID = d3.select(this).attr('id');
+
+      // control logic
+      if((paragraphID) === 'add') { // add a new random val to the
+        // dataset
+         var minValue = 2,
+             maxValue = 25 - minValue,
+             newNumber = Math.floor(Math.random() * maxValue) +
+             minValue,
+             lastKeyValue = dataset[dataset.length - 1].key;
+
+         dataset.push({
+            key: lastKeyValue + 1,
+            value: newNumber
+         });
+      } else { // remove one of the elements of the dataset from
+        // beginning of array
+         dataset.shift();
+      }
 
       // Update scales with new dataset
       xScale.domain(d3.range(dataset.length));
@@ -119,20 +139,36 @@ d3.select('p')
       // change color of bars.
 
       var bars = svg.selectAll('rect')
-                     .data(dataset, key)
-                     .attr('x', function(d, i) {
-                        return xScale(i); //
-                     })
-                     .attr('y', function(d) {
-                        return h - yScale(d.value);
-                     })
-                     .attr('width', xScale.bandwidth())
-                     .attr('height', function(d) {
-                        return yScale(d.value);
-                     })
-                     .attr('fill', function(d) { return "rgb(0, 0, " +
-                           Math.round(d.value * 10) + ")"; });
+                     .data(dataset, key);
 
+      bars.enter()
+          .append('rect')
+          .attr('x', w)
+          .attr('y', function(d) {
+            return h - yScale(d.value);
+          })
+          .attr('width', xScale.bandwidth())
+          .attr('height', function(d) {
+            return yScale(d.value);
+          })
+          .attr('fill', function(d) {
+            return 'rgb(0, 0,' + Math.round(d.value * 10) + ')';
+          })
+          .merge(bars)
+          .transition()
+          .duration(500)
+          .attr('x', function(d, i) {
+            return xScale(i);
+          })
+          .attr('y', function(d) {
+            return h - yScale(d.value);
+          })
+          .attr('width', xScale.bandwidth())
+          .attr('height', function(d) {
+            return yScale(d.value);
+          });
+
+      // Remove a bar
       bars.exit()
           .transition()
           .duration(500)
@@ -141,7 +177,15 @@ d3.select('p')
           .remove();
 
       // Update labels
-      var labels = svg.selectAll('text').data(dataset, key);
+      var labels = svg.selectAll('text')
+                      .data(dataset, key);
+
+      // Fixes labels stacking on removal of bar.
+      labels.exit()
+            .transition()
+            .duration(500)
+            .style('opacity', '0')
+            .remove()
 
       labels.enter()
             .append('text')
@@ -164,13 +208,6 @@ d3.select('p')
             .attr('font-size', '11px')
             .attr('fill', 'white')
             .attr('text-anchor', 'middle');
-
-      // Fixes labels stacking on removal of bar.
-      labels.exit()
-            .transition()
-            .duration(500)
-            .style('opacity', '0')
-            .remove()
    });
 
 
