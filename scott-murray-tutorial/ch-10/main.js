@@ -27,19 +27,6 @@ var yScale = d3.scaleLinear()
    .data(dataset)
    .enter()
    .append('rect')
-   .on('mouseover', function() { // Replace CSS3 animation with D3
-      d3.select(this)
-        .attr('fill', 'orange');
-   })
-   .on('mouseout', function(d) { // restore original bar color on
-     // mouseout
-      d3.select(this)
-        .transition() // NOTE: This and following smooth the animation
-        // transition
-        .duration(250)
-        .attr('fill', 'rgb(0, 0,' + (d * 10) + ')'); // this is how we
-        // derived the original bar color
-   })
    .attr('x', function(d, i) {
       return xScale(i); //
    }) // prevents bars from overlapping -- spaces evenly
@@ -52,6 +39,9 @@ var yScale = d3.scaleLinear()
    })
    .attr('fill', function(d) {
       return "rgb(0, 0, " + (d * 10) + ")";
+   })
+   .on('click', function() {
+      sortBars();
    }); // fill with a color
 
 // Create labels
@@ -74,4 +64,17 @@ svg.selectAll('text')
    .attr('text-anchor', 'middle') // anchor text in middle of bar
    .style('pointer-events', 'none'); // ignore mouse events involving
    // labels
+
+var sortBars = function() {
+   svg.selectAll('rect')
+      .sort(function(a, b) {
+         return d3.ascending(a, b);
+      })
+      .transition()
+      .duration(1000)
+      .attr('x', function(d, i) {
+         return xScale(i);
+      });
+};
+
 
