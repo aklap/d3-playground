@@ -71,5 +71,7 @@ svg.selectAll('text')
    .attr('font-family', 'sans-serif')
    .attr('font-size', '11px')
    .attr('fill', 'white')
-   .attr('text-anchor', 'middle'); // anchor text in middle of bar
+   .attr('text-anchor', 'middle') // anchor text in middle of bar
+   .style('pointer-events', 'none'); // ignore mouse events involving
+   // labels
 
