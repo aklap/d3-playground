@@ -27,8 +27,18 @@ var yScale = d3.scaleLinear()
    .data(dataset)
    .enter()
    .append('rect')
-   .on('click', function(d) {
-      console.log(d);
+   .on('mouseover', function() { // Replace CSS3 animation with D3
+      d3.select(this)
+        .attr('fill', 'orange');
+   })
+   .on('mouseout', function(d) { // restore original bar color on
+     // mouseout
+      d3.select(this)
+        .transition() // NOTE: This and following smooth the animation
+        // transition
+        .duration(250)
+        .attr('fill', 'rgb(0, 0,' + (d * 10) + ')'); // this is how we
+        // derived the original bar color
    })
    .attr('x', function(d, i) {
       return xScale(i); //
@@ -41,7 +51,7 @@ var yScale = d3.scaleLinear()
       return yScale(d);
    })
    .attr('fill', function(d) {
-      return "rgb(0, 0, " + Math.round(d * 10) + ")";
+      return "rgb(0, 0, " + (d * 10) + ")";
    }); // fill with a color
 
 // Create labels
