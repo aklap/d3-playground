@@ -6,7 +6,9 @@
     margin-right: 2px;
 }
 
-/* we can apply CSS3 transitions to SVG elements */
+/* TODO: Fade from orange to blue
+
+We can apply CSS3 transitions to SVG elements */
 rect { /* vendor prefixes */
     -moz-transition: all 0.25s;
     -o-transition: all 0.25s;
