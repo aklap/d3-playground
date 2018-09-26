@@ -67,18 +67,17 @@ var yScale = d3.scaleLinear()
          // Set coordinates for a tooltip on mouseover
          var xPosition = parseFloat(d3.select(this).attr('x')) +
          xScale.bandwidth() / 2;
-         var yPosition = parseFloat(d3.select(this).attr('y')) + 14;
+         var yPosition = parseFloat(d3.select(this).attr('y')) / 2 +
+         h / 2;
 
-         svg.append('text')
-            .attr('id', 'tooltip')
-            .attr('x', xPosition)
-            .attr('y', yPosition)
-            .attr('text-anchor', 'middle')
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', '11px')
-            .attr('font-weight', 'bold')
-            .attr('fill', 'black')
-            .text(d.value);
+         // Show bar tooltip
+         d3.select('#tooltip')
+           .style('left', xPosition + 'px')
+           .style('top', yPosition + 'px')
+           .select('#value')
+           .text(d.value);
+
+         d3.select('#tooltip').classed('hidden', false);
    })
    .on("mouseout", function(d) {
       d3.select(this)
@@ -86,8 +85,8 @@ var yScale = d3.scaleLinear()
             .duration(250)
          .attr("fill", "rgb(0, 0, " + (d.value * 10) + ")");
 
-      d3.select('#tooltip').remove(); // remove tooltip when mouse
-      // moves off bar
+      // Hide tooltip
+      d3.select('#tooltip').classed('hidden', true);
    })
    .on("click", function() {
          sortBars();
