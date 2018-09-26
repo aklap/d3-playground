@@ -9,14 +9,15 @@
 /* TODO: Fade from orange to blue
 
 We can apply CSS3 transitions to SVG elements */
+/*
 rect { /* vendor prefixes */
-    -moz-transition: all 0.25s;
+/*    -moz-transition: all 0.25s;
     -o-transition: all 0.25s;
     -webkit-transition: all 0.25s;
     transition: all 0.25s; /* apply transition with duration of 25ms to
     any changes of rects in our chart */
-}
+/*}*/
 
-rect:hover {
+/*rect:hover {
     fill: orange;
-}
+}*/

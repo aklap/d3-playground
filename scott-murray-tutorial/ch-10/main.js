@@ -60,9 +60,20 @@ var yScale = d3.scaleLinear()
    .attr('fill', function(d) {
       return "rgb(0, 0, " + (d.value * 10) + ")";
    })
-   .on('click', function() {
-      sortBars();
-   }); // fill with a color
+   .on("mouseover", function() {
+         d3.select(this)
+            .attr("fill", "orange");
+   })
+   .on("mouseout", function(d) {
+      d3.select(this)
+            .transition()
+            .duration(250)
+         .attr("fill", "rgb(0, 0, " + (d.value * 10) + ")");
+   })
+   .on("click", function() {
+         sortBars();
+   });
+
 
 // Create labels
 svg.selectAll('text')
@@ -85,12 +96,25 @@ svg.selectAll('text')
    .style('pointer-events', 'none'); // ignore mouse events involving
    // labels
 
+// Sort bars
+var sortOrder = false;
+
 var sortBars = function() {
+
+   sortOrder = !sortOrder; // set order to opposite Boolean value
+
    svg.selectAll('rect')
       .sort(function(a, b) {
-         return d3.ascending(a.value, b.value);
+         if(sortOrder === true) {
+            return d3.ascending(a.value, b.value);
+         } else {
+            return d3.descending(a.value, b.value);
+         }
       })
-      .transition()
+      .transition('sortBars')
+      .delay(function(d, i) { // per-element delay, nice visually
+         return i * 50;
+      })
       .duration(1000)
       .attr('x', function(d, i) {
          return xScale(i);
@@ -98,13 +122,20 @@ var sortBars = function() {
 
    svg.selectAll('text')
       .sort(function(a, b) {
-         return d3.ascending(a.value, b.value);
+         if(sortOrder === true) {
+            return d3.ascending(a.value, b.value);
+         } else {
+            return d3.descending(a.value, b.value);
+         }
       })
-      .transition()
+      .transition('sortLabels')
+      .delay(function(d, i) { // per-element delay, nice visually
+         return i * 50;
+      })
       .duration(1000)
       .attr('x', function(d, i) {
          return xScale(i) + xScale.bandwidth() / 2;
-      })
+      });
 };
 
 
