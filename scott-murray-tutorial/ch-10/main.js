@@ -60,9 +60,25 @@ var yScale = d3.scaleLinear()
    .attr('fill', function(d) {
       return "rgb(0, 0, " + (d.value * 10) + ")";
    })
-   .on("mouseover", function() {
+   .on("mouseover", function(d) {
          d3.select(this)
             .attr("fill", "orange");
+
+         // Set coordinates for a tooltip on mouseover
+         var xPosition = parseFloat(d3.select(this).attr('x')) +
+         xScale.bandwidth() / 2;
+         var yPosition = parseFloat(d3.select(this).attr('y')) + 14;
+
+         svg.append('text')
+            .attr('id', 'tooltip')
+            .attr('x', xPosition)
+            .attr('y', yPosition)
+            .attr('text-anchor', 'middle')
+            .attr('font-family', 'sans-serif')
+            .attr('font-size', '11px')
+            .attr('font-weight', 'bold')
+            .attr('fill', 'black')
+            .text(d.value);
    })
    .on("mouseout", function(d) {
       d3.select(this)
@@ -73,28 +89,6 @@ var yScale = d3.scaleLinear()
    .on("click", function() {
          sortBars();
    });
-
-
-// Create labels
-svg.selectAll('text')
-   .data(dataset)
-   .enter()
-   .append('text')
-   .text(function(d) {
-      return d.value;
-   })
-   .attr('x', function(d, i) {
-      return xScale(i) + xScale.bandwidth() / 2;
-   }) // center in the middle of the bar
-   .attr('y', function(d) {
-      return h - yScale(d.value) + 14;
-   })
-   .attr('font-family', 'sans-serif')
-   .attr('font-size', '11px')
-   .attr('fill', 'white')
-   .attr('text-anchor', 'middle') // anchor text in middle of bar
-   .style('pointer-events', 'none'); // ignore mouse events involving
-   // labels
 
 // Sort bars
 var sortOrder = false;
