@@ -85,6 +85,9 @@ var yScale = d3.scaleLinear()
             .transition()
             .duration(250)
          .attr("fill", "rgb(0, 0, " + (d.value * 10) + ")");
+
+      d3.select('#tooltip').remove(); // remove tooltip when mouse
+      // moves off bar
    })
    .on("click", function() {
          sortBars();
