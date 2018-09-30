@@ -1,3 +1,10 @@
+// Width and height
+var w = 800,
+    h = 300,
+    padding = 40;
+
+var dataset, xScale, yScale, line;
+
 // Parse each row and format
 var rowConverter = function(d) {
   return {
