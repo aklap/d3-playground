@@ -18,7 +18,6 @@ d3.csv("co2_mm_mlo-txt_edited.csv", rowConverter, function(data) {
   var dataset = data;
 
   console.table(dataset, ["date", "average"]);
-});
 
 // Set scales
 
@@ -44,3 +43,10 @@ var svg = d3.select('body')
             .append('svg')
             .attr('width', w)
             .attr('height', h);
+
+// Create line
+svg.append('path')
+   .datum('dataset')
+   .attr('class', 'line')
+   .attr('d', line);
+});
