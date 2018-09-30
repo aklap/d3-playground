@@ -11,7 +11,7 @@ var rowConverter = function(d) {
     date: new Date(+d.year, (+d.month - 1)), // +d forces values to be
     // typed as numbers not strings; -1 to adjust for zero starting value
     average: parseFloat(d.average)
-  }
+  };
 }
 
 d3.csv("co2_mm_mlo-txt_edited.csv", rowConverter, function(data) {
@@ -29,12 +29,12 @@ xScale =  d3.scaleTime()
             .range([0, w]);
 
 yScale = d3.scaleLinear()
-           .domain([0, d3.max(dataset, function(d) { return
-            d.average })])
+           .domain([0, d3.max(dataset, function(d) { return d.average
+           })])
            .range([h, 0]); // invert to display properly
 
 // Define line generator
-var line = d3.line()
+line = d3.line()
              .x(function(d) { return xScale(d.date); })
              .y(function(d) { return yScale(d.average); });
 
@@ -46,7 +46,7 @@ var svg = d3.select('body')
 
 // Create line
 svg.append('path')
-   .datum('dataset')
+   .datum(dataset)
    .attr('class', 'line')
    .attr('d', line);
 });
