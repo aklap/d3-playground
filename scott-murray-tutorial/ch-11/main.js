@@ -46,6 +46,7 @@ yAxis = d3.axisLeft()
 
 // Define line generator
 line = d3.line()
+             .defined(function(d) { return d.average >= 0 }) // prevent line going below x Axis; if value is below or equal to 0
              .x(function(d) { return xScale(d.date); })
              .y(function(d) { return yScale(d.average); });
 
