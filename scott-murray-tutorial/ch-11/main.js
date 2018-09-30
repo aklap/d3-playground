@@ -31,3 +31,9 @@ yScale = d3.scaleLinear()
 var line = d3.line()
              .x(function(d) { return xScale(d.date); })
              .y(function(d) { return yScale(d.average); });
+
+// Create SVG
+var svg = d3.select('body')
+            .append('svg')
+            .attr('width', w)
+            .attr('height', h);
