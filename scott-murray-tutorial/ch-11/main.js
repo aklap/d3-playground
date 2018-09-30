@@ -27,3 +27,7 @@ yScale = d3.scaleLinear()
             d.average })])
            .range([h, 0]); // invert to display properly
 
+// Define line generator
+var line = d3.line()
+             .x(function(d) { return xScale(d.date); })
+             .y(function(d) { return yScale(d.average); });
