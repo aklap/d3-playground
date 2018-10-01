@@ -3,7 +3,7 @@ var w = 800,
     h = 300,
     padding = 40;
 
-var dataset, xScale, yScale, xAxis, yAxis, line;
+var dataset, xScale, yScale, xAxis, yAxis, area, dangerArea;
 
 var formatTime = d3.timeFormat('%Y');
 // Parse each row and format
@@ -18,10 +18,7 @@ var rowConverter = function(d) {
 d3.csv("co2_mm_mlo-txt_edited.csv", rowConverter, function(data) {
   var dataset = data;
 
-  // console.table(dataset, ["date", "average"]);
-
 // Set scales
-
 xScale =  d3.scaleTime()
             .domain([
                     d3.min(dataset, function(d) { return d.date; }),
@@ -30,8 +27,14 @@ xScale =  d3.scaleTime()
             .range([padding, w]);
 
 yScale = d3.scaleLinear()
-           .domain([0, d3.max(dataset, function(d) { return d.average
-           })])
+           .domain([
+                   d3.min(dataset, function(d) {
+                      if(d.average >= 0) {
+                       return d.average;
+                      }
+                    }) - 10,
+                   d3.max(dataset, function(d) { return d.average })
+                  ])
            .range([h-padding, 0]); // invert to display properly
 
 // Defines axes
@@ -66,34 +69,43 @@ svg.append('text')
    .attr('y', yScale(350) - 7)
    .text('250 ppm "safe" level');
 
-// TODO: create two lines with but use a mask to clip their paths
-
-// Define line generators
-line = d3.line()
+// Define areas generator
+area = d3.area()
          .defined(function(d) {
-          return d.average >= 0 && d.average <= 350;
+          return d.average >= 0;
          })
          .x(function(d) {
           return xScale(d.date);
          })
-         .y(function(d) {
-          return yScale(d.average);
+         .y0(function() {
+          return yScale.range()[0]; // bottom of area
+         })
+         .y1(function(d) {
+          return yScale(d.average); // top of area
          });
+
+dangerArea = d3.area()
+               .defined(function(d) { return d.average >= 350; })
+               .x(function(d) { return xScale(d.date); })
+               .y0(function() { return yScale(350); }) // bottom
+               .y1(function(d) { return yScale(d.average) }); // top
+
 
 dangerLine = d3.line()
                .defined(function(d) { return d.average >= 350; })
                .x(function(d) { return xScale(d.date); })
                .y(function(d) { return yScale(d.average); });
-// Create lines
+
+// Create areas
 svg.append('path')
    .datum(dataset)
-   .attr('class', 'line')
-   .attr('d', line);
+   .attr('class', 'area')
+   .attr('d', area);
 
 svg.append('path')
    .datum(dataset)
-   .attr('class', 'dangerLine')
-   .attr('d', dangerLine);
+   .attr('class', 'dangerArea')
+   .attr('d', dangerArea);
 
 // Create axes
 svg.append('g')
