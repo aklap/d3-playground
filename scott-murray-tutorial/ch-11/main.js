@@ -56,6 +56,15 @@ var svg = d3.select('body')
             .attr('width', w)
             .attr('height', h);
 
+// Draw 'safety line': Draw a line with just two points,
+// start point and end point
+svg.append('line')
+   .attr('class', 'line safeLevel')
+   .attr('x1', padding) // Start line at left of chart
+   .attr('x2', w) // End line at end of chart
+   .attr('y1', yScale(350)) // keep line level
+   .attr('y2', yScale(350));
+
 // Create line
 svg.append('path')
    .datum(dataset)
