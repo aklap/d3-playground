@@ -66,6 +66,8 @@ svg.append('text')
    .attr('y', yScale(350) - 7)
    .text('250 ppm "safe" level');
 
+// TODO: create two lines with but use a mask to clip their paths
+
 // Define line generators
 line = d3.line()
          .defined(function(d) {
