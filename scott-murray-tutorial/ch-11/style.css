@@ -14,3 +14,9 @@
   fill: none;
   stroke-width: 0.5;
 }
+
+.dangerLabel {
+  fill: red;
+  font-family: Helvetica, sans-serif;
+  font-size: 12px;
+}

@@ -59,6 +59,13 @@ svg.append('line')
    .attr('y1', yScale(350)) // keep line level
    .attr('y2', yScale(350));
 
+// Add label for safety line
+svg.append('text')
+   .attr('class', 'dangerLabel')
+   .attr('x', padding + 20)
+   .attr('y', yScale(350) - 7)
+   .text('250 ppm "safe" level');
+
 // Define line generators
 line = d3.line()
          .defined(function(d) {
@@ -97,5 +104,6 @@ svg.append('g')
    .attr('transform', 'translate(0, ' +  (h - padding) + ')')
    .call(xAxis);
 });
+
 
 
