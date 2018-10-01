@@ -18,3 +18,7 @@
 .area {
   fill: teal;
 }
+
+.dangerArea {
+  fill: red;
+}

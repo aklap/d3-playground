@@ -97,6 +97,9 @@ dangerLine = d3.line()
                .y(function(d) { return yScale(d.average); });
 
 // Create areas
+
+// TODO: clip path so teal doesn't bleed into dangerArea
+
 svg.append('path')
    .datum(dataset)
    .attr('class', 'area')
