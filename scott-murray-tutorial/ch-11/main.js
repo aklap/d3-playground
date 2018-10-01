@@ -44,12 +44,6 @@ yAxis = d3.axisLeft()
           .scale(yScale)
           .ticks(10);
 
-// Define line generator
-line = d3.line()
-             .defined(function(d) { return d.average >= 0 }) // prevent line going below x Axis; if value is below or equal to 0
-             .x(function(d) { return xScale(d.date); })
-             .y(function(d) { return yScale(d.average); });
-
 // Create SVG
 var svg = d3.select('body')
             .append('svg')
@@ -65,11 +59,32 @@ svg.append('line')
    .attr('y1', yScale(350)) // keep line level
    .attr('y2', yScale(350));
 
-// Create line
+// Define line generators
+line = d3.line()
+         .defined(function(d) {
+          return d.average >= 0 && d.average <= 350;
+         })
+         .x(function(d) {
+          return xScale(d.date);
+         })
+         .y(function(d) {
+          return yScale(d.average);
+         });
+
+dangerLine = d3.line()
+               .defined(function(d) { return d.average >= 350; })
+               .x(function(d) { return xScale(d.date); })
+               .y(function(d) { return yScale(d.average); });
+// Create lines
 svg.append('path')
    .datum(dataset)
    .attr('class', 'line')
    .attr('d', line);
+
+svg.append('path')
+   .datum(dataset)
+   .attr('class', 'dangerLine')
+   .attr('d', dangerLine);
 
 // Create axes
 svg.append('g')
