@@ -35,8 +35,8 @@ var yScale = d3.scaleLinear()
 
 // Set up stack method
 var stack = d3.stack()
-              .keys(['apples', 'oranges', 'grapes']); // column
-              // headers/categories
+              .keys(['apples', 'oranges', 'grapes'])
+              .order(d3.stackOrderDescending);
 
 // Stacked data
 var series = stack(dataset);
