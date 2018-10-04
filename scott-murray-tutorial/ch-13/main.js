@@ -18,7 +18,8 @@ var svg = d3.select('body')
 
 // Necessary for a pie chart:
 var outerRadius = w / 2;
-var innerRadius = 0;
+var innerRadius = w / 3; // anything greater than zero creates a
+// doughnut chart
 var arc = d3.arc()
             .innerRadius(innerRadius)
             .outerRadius(outerRadius);
