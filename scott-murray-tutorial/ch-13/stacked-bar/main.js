@@ -29,7 +29,7 @@ var yScale = d3.scaleLinear()
                         // whatever is the tallest bar
                        })
                       ])
-                      .range([0, h]);
+                      .range([h, 0]);
 
 // NOTE: the data set is columns, the chart is categories.
 
@@ -62,10 +62,10 @@ var rects = groups.selectAll('rect')
                     // there are
                   })
                   .attr('y', function(d) {
-                    return yScale(d[0]); // baseline val
+                    return yScale(d[1]); // topline val
                   })
                   .attr('height', function(d) {
-                    return yScale(d[1]) - yScale(d[0]); // diff
-                  // baseline and top line vals
+                    return  yScale(d[0]) - yScale(d[1]); // diff
+                  // top line and baseline vals
                   })
                   .attr('width', xScale.bandwidth());
