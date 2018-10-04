@@ -38,3 +38,15 @@ arcs.append('path')
     })
     .attr('d', arc); // d3 will see the function and pass in d, i
     // automatically
+
+// Create labels
+arcs.append('text')
+    .attr('transform', function(d) {
+      return 'translate(' + arc.centroid(d) + ')'; // centroid is the
+      // calculated center of any shape
+    })
+    .attr('text-anchor', 'middle')
+    .text(function(d) {
+      return d.value; // data is bound to a DOM element, so we can't
+      // refer to our dataset array, but the object we created
+    });
