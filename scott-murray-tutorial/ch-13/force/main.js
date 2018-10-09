@@ -31,3 +31,11 @@ var dataset = {
     { source: 8, target: 9 }
   ]
 };
+
+// Initialize force layout
+var force = d3.forceSimulation(dataset.nodes)
+              .force('charge', d3.forceManyBody())
+              .force('link', d3.forceLink(dataset.edges))
+              .force('center', d3.forceCenter().x(w/2).y(h/2));
+
+
