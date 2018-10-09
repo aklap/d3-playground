@@ -38,4 +38,26 @@ var force = d3.forceSimulation(dataset.nodes)
               .force('link', d3.forceLink(dataset.edges))
               .force('center', d3.forceCenter().x(w/2).y(h/2));
 
+// Create visual elements
+var svg = d3.select('body')
+            .append('svg')
+            .attr('width', w)
+            .attr('height' ,h);
 
+var edges = svg.selectAll('line')
+               .data(dataset.edges)
+               .enter()
+               .append('line')
+               .style('stroke', '#ccc')
+               .style('stroke-width', 1);
+
+var colors = d3.scaleOrdinal(d3.schemeCategory10);
+
+var nodes = svg.selectAll('circle')
+               .data(dataset.nodes)
+               .enter()
+               .append('circle')
+               .attr('r', 10)
+               .style('fill', function(d, i) {
+                return colors(i);
+               });
