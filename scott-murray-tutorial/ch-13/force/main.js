@@ -61,3 +61,29 @@ var nodes = svg.selectAll('circle')
                .style('fill', function(d, i) {
                 return colors(i);
                });
+
+// Add tooltips
+nodes.append('title')
+     .text(function(d) {
+      return d.name;
+     });
+
+// Create lines by drawing lines between 2 data points
+force.on('tick', function() {
+  edges.attr('x1', function(d) {
+    return d.source.x;
+  })
+  .attr('y1', function(d) {
+    return d.source.y;
+  })
+  .attr('x2', function(d) {
+    return d.target.x;
+  })
+  .attr('y2', function(d) {
+    return d.target.y;
+  });
+
+  // Draws a circle at each data point
+  nodes.attr('cx', function(d) { return d.x; })
+       .attr('cy', function(d) { return d.y; });
+});
