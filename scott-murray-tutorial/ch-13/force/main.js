@@ -39,6 +39,8 @@ var force = d3.forceSimulation(dataset.nodes)
               .force('center', d3.forceCenter().x(w/2).y(h/2));
 
 // Create visual elements
+var colors = d3.scaleOrdinal(d3.schemeCategory10);
+
 var svg = d3.select('body')
             .append('svg')
             .attr('width', w)
@@ -50,8 +52,6 @@ var edges = svg.selectAll('line')
                .append('line')
                .style('stroke', '#ccc')
                .style('stroke-width', 1);
-
-var colors = d3.scaleOrdinal(d3.schemeCategory10);
 
 var nodes = svg.selectAll('circle')
                .data(dataset.nodes)
@@ -68,10 +68,11 @@ nodes.append('title')
       return d.name;
      });
 
-// Create lines by drawing lines between 2 data points
+// Create graph by drawing lines between 2 data points
 force.on('tick', function() {
   edges.attr('x1', function(d) {
-    return d.source.x;
+    return d.source.x; // map these properties calculated by D3 to
+    // visual elements in the DOM
   })
   .attr('y1', function(d) {
     return d.source.y;
