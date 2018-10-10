@@ -6,6 +6,13 @@ var svg = d3.select('body')
             .attr('width', w)
             .attr('height', h);
 
+var projection = d3.geoAlbersUsa()
+                   .translate([w/2, h/2])
+                   .scale([500]);
+
+var path = d3.geoPath()
+             .projection(projection);
+
 // Set output as range of colors, adapted from Cynthia Brewer
 var color = d3.scaleQuantize()
               .range([
@@ -29,7 +36,7 @@ d3.csv('us-ag-productivity.csv', function(data) {
               ]);
 
   // For each state's info in the csv, loop through
-  d3.json('../albers-projection/us-states.json', function(data) {
+  d3.json('../albers-projection/us-states.json', function(json) {
     // Merge agri data and GeoJSON bc we can only map 1 dataset to
     // elements at a time
 
@@ -43,7 +50,7 @@ d3.csv('us-ag-productivity.csv', function(data) {
 
         // search for matching state: if state in agri csv is same as
         // that in GeoJSON
-        if (dataState == jsonState) {
+        if (dataState === jsonState) {
           // set the geo map's state value to that of the agri data
           json.features[j].properties.value = dataValue;
 
