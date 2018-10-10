@@ -27,5 +27,26 @@ d3.csv('us-ag-productivity.csv', function(data) {
                   return d.value;
                 })
               ]);
+
+  d3.json('../albers-projection/us-state.json', function(data) {
+    // Merge agri data and GeoJSON bc we can only map 1 dataset to
+    // elements at a time
+
+    for(var i=0; i < data.length; i++) {
+      var dataState = data[i].state;
+
+      var dataValue = parseFloat(data[i].value);
+
+      for(var j=0; j < json.features.length; j++) {
+        var jsonState = json.features[j].properties.name;
+
+        if (dataState == jsonState) {
+          json.features[j].properties.value = dataValue;
+
+          break;
+        }
+      }
+    }
+  });
 });
 
