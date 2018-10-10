@@ -52,6 +52,24 @@ d3.csv('us-ag-productivity.csv', function(data) {
       }
     }
   });
+
+  // Draw paths
+  svg.selectAll('path')
+     .data(json.features)
+     .enter()
+     .append('path')
+     .attr('d', path)
+     .style('fill', function(d) {
+              var value = d.properties.value;
+
+              if(value) {
+                return color(value);
+              } else {
+                return '#ccc';
+              }
+            });
 });
+
+
 
 
