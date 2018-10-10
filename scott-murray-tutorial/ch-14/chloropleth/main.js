@@ -84,13 +84,16 @@ d3.csv('us-ag-productivity.csv', function(data) {
            .data(data)
            .enter()
            .append('circle') // represent each city as circle
-           .attr('cx', function(d) {
+           .attr('cx', function(d) { // input geo coords, get screen xy
               return projection([d.lon, d.lat])[0];
             })
            .attr('cy', function(d) {
               return projection([d.lon, d.lat])[1];
             })
-           .attr('r', 5)
+           .attr('r', function(d) {
+              return Math.sqrt(parseInt(d.population) * 0.00004);
+ // scale the circles
+           })
            .style('fill', 'yellow')
            .style('stroke', 'gray')
            .style('stroke-width', 0.25)
