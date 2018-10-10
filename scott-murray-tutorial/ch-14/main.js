@@ -3,11 +3,12 @@ var w = 500,
 
 var svg = d3.select('body')
             .append('svg')
-            .attr('w', w)
-            .attr('h', h);
+            .attr('width', w)
+            .attr('height', h);
 
 // Center the map
-var projection = d3.geoAlbersUsa().translate([w/2, h/2]);
+var projection = d3.geoAlbersUsa()
+                   .translate([w/2, h/2]);
 
 // Define path generator; use Albers USA projection
 var path = d3.geoPath()
