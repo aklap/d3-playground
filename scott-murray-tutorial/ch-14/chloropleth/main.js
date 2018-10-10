@@ -28,19 +28,23 @@ d3.csv('us-ag-productivity.csv', function(data) {
                 })
               ]);
 
+  // For each state's info in the csv, loop through
   d3.json('../albers-projection/us-states.json', function(data) {
     // Merge agri data and GeoJSON bc we can only map 1 dataset to
     // elements at a time
 
     for(var i=0; i < data.length; i++) {
-      var dataState = data[i].state;
+      var dataState = data[i].state; // get state name
 
-      var dataValue = parseFloat(data[i].value);
+      var dataValue = parseFloat(data[i].value); // convert to float
 
       for(var j=0; j < json.features.length; j++) {
         var jsonState = json.features[j].properties.name;
 
+        // search for matching state: if state in agri csv is same as
+        // that in GeoJSON
         if (dataState == jsonState) {
+          // set the geo map's state value to that of the agri data
           json.features[j].properties.value = dataValue;
 
           break;
@@ -49,4 +53,5 @@ d3.csv('us-ag-productivity.csv', function(data) {
     }
   });
 });
+
 
