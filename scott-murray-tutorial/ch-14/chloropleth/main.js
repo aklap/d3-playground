@@ -23,6 +23,8 @@ var color = d3.scaleQuantize()
                      "rgb(0,109,44)"
                     ]);
 
+var formatAsThousands = d3.format(',');
+
 // Load data
 d3.csv('us-ag-productivity.csv', function(data) {
   // Map colors to inputs
@@ -75,6 +77,29 @@ d3.csv('us-ag-productivity.csv', function(data) {
                   return '#ccc';
                 }
               });
+
+      // Load cities
+      d3.csv('us-cities.csv', function(data) {
+        svg.selectAll('circle')
+           .data(data)
+           .enter()
+           .append('circle') // represent each city as circle
+           .attr('cx', function(d) {
+              return projection([d.lon, d.lat])[0];
+            })
+           .attr('cy', function(d) {
+              return projection([d.lon, d.lat])[1];
+            })
+           .attr('r', 5)
+           .style('fill', 'yellow')
+           .style('stroke', 'gray')
+           .style('stroke-width', 0.25)
+           .style('opacity', 0.75)
+           .append('title')
+           .text(function(d) {
+              return d.place + ": Pop. " + formatAsThousands(d.population);
+            });
+      });
     });
 });
 
