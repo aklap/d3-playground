@@ -28,7 +28,7 @@ d3.csv('us-ag-productivity.csv', function(data) {
                 })
               ]);
 
-  d3.json('../albers-projection/us-state.json', function(data) {
+  d3.json('../albers-projection/us-states.json', function(data) {
     // Merge agri data and GeoJSON bc we can only map 1 dataset to
     // elements at a time
 
