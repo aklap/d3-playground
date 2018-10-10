@@ -8,7 +8,8 @@ var svg = d3.select('body')
 
 // Center the map
 var projection = d3.geoAlbersUsa()
-                   .translate([w/2, h/2]);
+                   .translate([w/2, h/2])
+                   .scale([500]); // scale the map down so it fits
 
 // Define path generator; use Albers USA projection
 var path = d3.geoPath()
