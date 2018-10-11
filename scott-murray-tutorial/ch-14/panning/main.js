@@ -176,7 +176,7 @@ d3.csv('us-ag-productivity.csv', function(data) {
              .html('&rarr;'); //unicode for arrow char
 
     // Panning event listener
-    d3.selectAll('pan')
+    d3.selectAll('.pan')
       .on('click', function() {
         var  offset = projection.translate(); // move view of the map
         console.log('touch');
