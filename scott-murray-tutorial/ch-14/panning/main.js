@@ -125,7 +125,7 @@ d3.csv('us-ag-productivity.csv', function(data) {
     north.append('text')
          .attr('x', w / 2) // center  text
          .attr('y', 20) // NOTE: magic number?
-         .attr('&uarr;'); //unicode for arrow char
+         .html('&uarr;'); //unicode for arrow char
 
     // South
     var south = svg.append('g')
@@ -133,14 +133,15 @@ d3.csv('us-ag-productivity.csv', function(data) {
                    .attr('id', 'south');
 
     south.append('rect')
-                   .attr('x', w / 2)
-                   .attr('y', 20)
-                   .html('&uarr;');
+                   .attr('x', 0)
+                   .attr('y', h - 30)
+                   .attr('width', w)
+                   .attr('height', 30);
 
     south.append('text')
              .attr('x', w / 2) // center  text
-             .attr('y', 20) // NOTE: magic number?
-             .attr('&uarr;'); //unicode for arrow char
+             .attr('y', h - 10) // NOTE: magic number?
+             .html('&darr;'); //unicode for arrow char
 
     // West
     var west = svg.append('g')
@@ -156,7 +157,7 @@ d3.csv('us-ag-productivity.csv', function(data) {
     west.append('text')
              .attr('x', 15) // center  text
              .attr('y', h / 2) // NOTE: magic number?
-             .attr('&larr;'); //unicode for arrow char
+             .html('&larr;'); //unicode for arrow char
 
     // East
     var east = svg.append('g')
@@ -164,15 +165,15 @@ d3.csv('us-ag-productivity.csv', function(data) {
                    .attr('id', 'east');
 
     east.append('rect')
-                   .attr('x', 0)
+                   .attr('x', w - 30)
                    .attr('y', 30)
                    .attr('width', 30)
                    .attr('height', h - 60);
 
     east.append('text')
-             .attr('x', 15) // center  text
+             .attr('x', w - 15) // center  text
              .attr('y', h / 2) // NOTE: magic number?
-             .attr('&larr;'); //unicode for arrow char
+             .html('&rarr;'); //unicode for arrow char
 
     // Panning event listener
     d3.selectAll('pan')
