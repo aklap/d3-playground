@@ -102,10 +102,121 @@ d3.csv('us-ag-productivity.csv', function(data) {
            .text(function(d) {
               return d.place + ": Pop. " + formatAsThousands(d.population);
             });
+
+           createPanButtons();
       });
     });
+
+  // Add panning
+  var createPanButtons = function() {
+    // Create clickable elements
+
+    // North
+    var north = svg.append('g')
+                   .attr('class', 'pan') // will watch all pan els
+                   .attr('id', 'north'); // give unique direction
+
+    north.append('rect')
+         .attr('x', 0)
+         .attr('y', 0)
+         .attr('width', w)
+         .attr('height', 30); // NOTE: magic number?
+
+    north.append('text')
+         .attr('x', w / 2) // center  text
+         .attr('y', 20) // NOTE: magic number?
+         .attr('&uarr;'); //unicode for arrow char
+
+    // South
+    var south = svg.append('g')
+                   .attr('class', 'pan')
+                   .attr('id', 'south');
+
+    south.append('rect')
+                   .attr('x', w / 2)
+                   .attr('y', 20)
+                   .html('&uarr;');
+
+    south.append('text')
+             .attr('x', w / 2) // center  text
+             .attr('y', 20) // NOTE: magic number?
+             .attr('&uarr;'); //unicode for arrow char
+
+    // West
+    var west = svg.append('g')
+                   .attr('class', 'pan')
+                   .attr('id', 'west');
+
+    west.append('rect')
+                   .attr('x', 0)
+                   .attr('y', 30)
+                   .attr('width', 30)
+                   .attr('height', h - 60);
+
+    west.append('text')
+             .attr('x', 15) // center  text
+             .attr('y', h / 2) // NOTE: magic number?
+             .attr('&larr;'); //unicode for arrow char
+
+    // East
+    var east = svg.append('g')
+                   .attr('class', 'pan')
+                   .attr('id', 'east');
+
+    east.append('rect')
+                   .attr('x', 0)
+                   .attr('y', 30)
+                   .attr('width', 30)
+                   .attr('height', h - 60);
+
+    east.append('text')
+             .attr('x', 15) // center  text
+             .attr('y', h / 2) // NOTE: magic number?
+             .attr('&larr;'); //unicode for arrow char
+
+    // Panning event listener
+    d3.selectAll('pan')
+      .on('click', function() {
+        var  offset = projection.translate(); // move view of the map
+        console.log('touch');
+        // amount of space to move on click
+        var moveAmount = 50;
+
+        // Get direction to move in
+        var direction = d3.select(this).attr('id');
+
+        // Modify the offset, depending on the direction
+        switch(direction) {
+          case 'north':
+            offset[1] += moveAmount; // increases y offset
+            break;
+          case 'south':
+            offset[1] -= moveAmount; // decreases y offset
+            break;
+          case 'west':
+            offset[0] += moveAmount; // increases x offset
+            break;
+          case 'east':
+            offset[0] -= moveAmount; // decrease x offset
+            break;
+          default:
+            break;
+        }
+
+        // Update map (projection) with this new offset
+        projection.translate(offset);
+
+        // Update all the visual elements
+        svg.selectAll('path')
+           .attr('d', path);
+
+        svg.selectAll('circle')
+           .attr('cx', function(d) {
+              return projection([d.lon, d.lat])[0];
+           })
+           .attr('cy', function(d) {
+              return projection([d.lon, d.lat])[1];
+           });
+      });
+  }
 });
-
-
-
-
