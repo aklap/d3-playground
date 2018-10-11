@@ -8,7 +8,7 @@ var svg = d3.select('body')
 
 var projection = d3.geoAlbersUsa()
                    .translate([w/2, h/2])
-                   .scale([500]);
+                   .scale([2000]);
 
 var path = d3.geoPath()
              .projection(projection);
