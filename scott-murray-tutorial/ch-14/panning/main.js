@@ -209,9 +209,11 @@ d3.csv('us-ag-productivity.csv', function(data) {
 
         // Update all the visual elements
         svg.selectAll('path')
+           .transition()
            .attr('d', path);
 
         svg.selectAll('circle')
+           .transition()
            .attr('cx', function(d) {
               return projection([d.lon, d.lat])[0];
            })
